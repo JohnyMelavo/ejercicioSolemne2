@@ -109,6 +109,29 @@ class Producto{
 	
 		return $valaux;
 	}
-					
+        
+        function ActualizaProducto($id,$nombre,$total,$ano){
+            
+		$db=dbconnect();
+		/*Definicion del query que permitira actualizar el producto*/
+		$sqlupd="update productos
+					set nombre=:nombre,
+					set totalUSD=:total,
+					set ano=:ano,
+					where idproducto=:id";
+	
+		/*Preparacion SQL*/
+		$querysel=$db->prepare($sqlupd);
+	
+		/*Asignacion de parametros utilizando bindparam*/
+		$querysel->bindParam(':nombre',$nombre);
+		$querysel->bindParam(':total',$total);
+		$querysel->bindParam(':ano',$ano);
+                $querysel->bindParam(':id',$id);
+
+		$valaux=$querysel->execute();
+	
+		return $valaux;
+	}
 }
 ?>

@@ -7,13 +7,13 @@
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <link rel="stylesheet" href="css/styles.css">
    <script src="js/jquery-latest.min.js" type="text/javascript"></script>
-   <title>Seleccionar</title>
+   <title>Actualizar</title>
 </head>
 <body>
-<?php 
-include('menu.php');
-?>
-SELECCIONAR
-</body>
+        <?php
+        include('menu.php');
+        include('./form/formactualizar.php');
+        ?>
+    </body>
 </html>
 
