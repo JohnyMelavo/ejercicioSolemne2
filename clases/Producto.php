@@ -1,92 +1,137 @@
 <?php
 
-class Producto {
-
-    private $nidproducto;
-    private $snombre;
-    private $ntotalusd;
-    private $nano;
-    private $querysel;
-
-    function __construct($nid = NULL, $snom = NULL, $ntot = NULL, $nano = NULL) {
-        $this->nidproducto = $nid;
-        $this->snombre = $snom;
-        $this->ntotalusd = $ntot;
-        $this->nano = $nano;
-    }
-
-    function IdProducto() {
-        return $this->nidproducto;
-    }
-
-    function Nombre() {
-        return $this->snombre;
-    }
-
-    function TotalUSD() {
-        return $this->ntotalusd;
-    }
-
-    function Ano() {
-        return $this->nano;
-    }
-
-    function Selecciona() {
-
-        if (!$this->querysel) {
-            $db = dbconnect();
-            /* Definici�n del query que permitira ingresar un nuevo registro */
-
-            $sqlsel = "select idproducto,nombre,totalusd,ano from productos order by nombre";
-
-            /* Preparaci�n SQL */
-            $this->querysel = $db->prepare($sqlsel);
-
-            $this->querysel->execute();
+class Producto{
+	private $nidproducto;
+	private $snombre;
+	private $ntotalusd;
+	private $nano;
+	private $querysel;
+	function __construct($nid=NULL,$snom=NULL,$ntot=NULL,$nano=NULL){
+		$this->nidproducto=$nid;
+		$this->snombre=$snom;
+		$this->ntotalusd=$ntot;
+		$this->nano=$nano;
+		
+	}
+	
+	function IdProducto(){
+		return $this->nidproducto;
+	}
+	
+	function Nombre(){
+		return $this->snombre;
+	}
+	
+	function TotalUSD(){
+		return $this->ntotalusd;
+	}
+	function Ano(){
+		return $this->nano;
+	}
+	function setNidproducto($nidproducto) {
+            $this->nidproducto = $nidproducto;
         }
 
-        $registro = $this->querysel->fetch();
-        if ($registro) {
-            return new self($registro['idproducto'], $registro['nombre'], $registro['totalusd'], $registro['ano']);
-        } else {
-            return false;
+        function setSnombre($snombre) {
+            $this->snombre = $snombre;
         }
-    }
 
-    function Elimina($id) {
+        function setNtotalusd($ntotalusd) {
+            $this->ntotalusd = $ntotalusd;
+        }
 
-        $db = dbconnect();
+        function setNano($nano) {
+            $this->nano = $nano;
+        }
 
-        /* Definici�n del query que permitira eliminar un registro */
-        $sqldel = "delete from productos where idproducto=:id";
+        function setQuerysel($querysel) {
+            $this->querysel = $querysel;
+        }
 
-        /* Preparaci�n SQL */
-        $querydel = $db->prepare($sqldel);
-
-        $querydel->bindParam(':id', $id);
-
-        $valaux = $querydel->execute();
-
-        return $valaux;
-    }
-
-    function agregarProducto($id,$nombre,$total,$ano) {
-        $db = dbconnect();
-
-        $sqladd = "insert into productos values(:id,:nombre,:total,:ano)";
-
-        $squeryadd = $db->prepare($sqladd);
+        	
+	function Selecciona(){
+		
+		if (!$this->querysel){
+		$db=dbconnect();
+		/*Definici�n del query que permitira ingresar un nuevo registro*/
+		
+			$sqlsel="select idproducto,nombre,totalusd,ano from productos order by nombre";
+		
+			/*Preparaci�n SQL*/
+			$this->querysel=$db->prepare($sqlsel);
+		
+			$this->querysel->execute();
+		}
+		
+		$registro = $this->querysel->fetch();
+		if ($registro){
+			return new self($registro['idproducto'], $registro['nombre'], $registro['totalusd'], $registro['ano']);			
+		}
+		else {
+			return false;
+			
+		}
+	}
+	
+	function Elimina($id){
+	
+		$db=dbconnect();
+		
+			/*Definici�n del query que permitira eliminar un registro*/
+			$sqldel="delete from productos where idproducto=:id";
+	
+			/*Preparaci�n SQL*/
+			$querydel=$db->prepare($sqldel);
+			
+			$querydel->bindParam(':id',$id);
+			
+			$valaux=$querydel->execute();
+	
+		return $valaux;
+	}
         
-        $squeryadd->bindParam(':id', $id);
-        $squeryadd->bindParam(':nombre', $nombre);
-        $squeryadd->bindParam(':total', $total);
-        $squeryadd->bindParam(':ano', $ano);
+        function Agrega($id,$nombre,$total,$ano){
+	
+		$db=dbconnect();
+		
+			/*Definicion del query que permitira agregar un registro*/
+			$sqladd="INSERT INTO productos VALUES(:id,:nombre,:total,:ano)";
+	
+			/*Preparacion SQL*/
+			$queryadd=$db->prepare($sqladd);
+			
+			$queryadd->bindParam(':id',$id);
+			$queryadd->bindParam(':nombre',$nombre);
+			$queryadd->bindParam(':total',$total);
+			$queryadd->bindParam(':ano',$ano);
+			
+			$valaux=$queryadd->execute();
+	
+		return $valaux;
+	}
         
-        $valaux = $squeryadd->execute();
-        
-        return $valaux;
-    }
+        function ActualizaProducto($id,$nombre,$total,$ano){
+            
+		$db=dbconnect();
+		/*Definicion del query que permitira actualizar el producto*/
+		$sqlupd="update productos
+					set nombre=:nombre,
+					set totalUSD=:total,
+					set ano=:ano,
+					where idproducto=:id";
+	
+		/*Preparacion SQL*/
+		$querysel=$db->prepare($sqlupd);
+	
+		/*Asignacion de parametros utilizando bindparam*/
+		$querysel->bindParam(':nombre',$nombre);
+		$querysel->bindParam(':total',$total);
+		$querysel->bindParam(':ano',$ano);
+                $querysel->bindParam(':id',$id);
 
+		$valaux=$querysel->execute();
+	
+		return $valaux;
+	}
 }
-
 ?>

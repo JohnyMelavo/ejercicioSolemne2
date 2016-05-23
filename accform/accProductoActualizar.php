@@ -6,10 +6,10 @@ $nombre = $_POST['nombre'];
 $total = $_POST['total'];
 $ano = $_POST['anio'];
 
-$oPro->Agrega($id,$nombre,$total,$ano);	
+$oPro->ActualizaProducto($id,$nombre,$total,$ano);	
 
 ?>
 
 <script>
-	document.location.href="<?=PATHURL?>exportaciones_add.php";
+	document.location.href="<?=PATHURL?>exportaciones_upd.php";
 </script>

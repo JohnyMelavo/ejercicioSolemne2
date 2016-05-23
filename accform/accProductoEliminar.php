@@ -1,7 +1,7 @@
 <?php
 include("../librerias.php");
 $oPro=new Producto();
-foreach ($_POST as $id ){
+foreach ($_POST as $id){
 	$oPro->Elimina($id);	
 };
 ?>
