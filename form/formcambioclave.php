@@ -37,7 +37,7 @@
         $.ajax({
             url: 'accform/accUsuarioUPDClave.php',
             type: 'POST',
-            data: "clave=" + CryptoJS.MD5($("#clavenueva").val()).toString(),
+            data: "newpwd=" + CryptoJS.MD5($("#clavenueva").val()).toString(),
             success: function (datos) {
                 alert("clave cambiada");
             }
